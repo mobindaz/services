@@ -1,0 +1,42 @@
+{% extends 'dashboard.html' %}
+{% load templatehelpers %}
+{% load static %}
+{% block dashboard-body %}
+<nav class="navbar navbar-expand-sm bg-light navbar-light mt-3 float-right">
+    <!-- Links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'students:edit_student' pk=student.id %}">Edit Student</a>
+        </li>
+        {% if tc_exists is False %}
+            {% comment %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tc:apply_tc' student.id %}">Aplly TC</a>
+            </li>
+            {% endcomment %}
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tc:edit_tc' student.id %}">Edit TC</a>
+            </li>
+            <!--
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tc:cancel_tc' tc_application.id %}">Cancel TC</a>
+            </li>
+            -->
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tc:application_view' student.id %}" target="_blank">Print Application</a>
+            </li>
+            {% if not tc_application.tc_issued %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tc:tc_issue_view' student.id %}" >Issue TC</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'tc:tc_print_view' student.id %}" target="_blank">Print TC</a>
+            </li>
+            {% endif %}
+        {% endif %}
+    </ul>
+</nav>
+{% include 'students/student_info.html' %}
+{% endblock %}

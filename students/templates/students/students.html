@@ -1,0 +1,37 @@
+{% extends 'dashboard.html' %}
+{% block dashboard-body %}
+
+<h3 class="mb-3">{{label|default:'Students'}}</h3>
+<div class="row">
+  <div class="col-12">
+    <table class="table table-bordered">
+      {% include 'table/header.html' with headers=headers %}
+      <tbody>
+        {% for student in students %}
+        <tr>
+          <td scope="row">
+            {{student.name}}
+          </td>          
+          <td scope="row">
+            {{student.admission_number}}
+          </td>          
+          <td scope="row">
+            {{student.registration_number}}
+          </td>          
+          <td scope="row">
+            {{student.department}}
+          </td>          
+          <th scope="row">
+            <a href="{% url 'students:edit_student' pk=student.id %}" class="btn lio-primary-bg text-light">edit </a>
+            
+            <a href="{% url 'students:student' pk=student.id %}" class="btn lio-primary-bg text-light">details</a>
+          </th>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% include 'table/pagination.html' with context_obj=students %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'dashboard.html' %}
+
+{% block dashboard-body %}
+
+<div class="row">
+  <div class="col-12">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Application Number</th>
+          <th scope="col">Admission Number</th>
+          <th scope="col">Name</th>
+          <th scope="col">Class</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tcapplication in tcapplications %}
+        <tr>
+          <th scope="row">
+              {{ tcapplication.tc_application_Number}}
+          </th>
+          <th scope="row">
+              {{ tcapplication.student.admission_number}}
+          </th>
+          <th scope="row">
+              {{ tcapplication.student.name}}
+          </th>
+          <th scope="row">
+              {{ tcapplication.activeclassroom}}
+          </th>
+          <th scope="row">
+            <a href="{%url 'tc:tc_issue_view' pk=tcapplication.student.id %}" class="btn lio-primary-bg text-light">Issue </a>
+            <a href="{%url 'tc:edit_tc' pk=tcapplication.student.id %}" class="btn lio-primary-bg text-light">Edit</a>
+            <a href="{%url 'tc:application_view' pk=tcapplication.student.id %}" class="btn lio-primary-bg text-light" target="_blank">Print</a>
+            <a href="{%url 'tc:cancel_tc' pk=tcapplication.student.id %}" class="btn lio-primary-bg text-light" onclick="return confirm('Are you sure to delete?')" >Delete</a>
+          </th>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

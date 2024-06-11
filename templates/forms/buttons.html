@@ -1,0 +1,7 @@
+{% for button in buttons %}
+    
+    <button {% for key,value in button.items %} {{key}} ="{{value}}" {% endfor %}>
+        {{button.label|safe}}
+    </button>
+
+{% endfor %}

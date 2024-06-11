@@ -1,0 +1,21 @@
+{% extends "dashboard.html" %}
+{% load crispy_forms_tags %}
+{% block dashboard-body %}
+
+	<form action="{{form.action|default:request.path}}" method="{{form.method|default:'POST'}}" class="{{form.class}} admission-form d-block" {% if file %} enctype="multipart/form-data"{% endif %}>
+  <div class="alert alert-danger">
+    <p>Fill up all the required field first, then click <em>Apply</em></p>
+  </div>
+  <p class="text-info my-3">TC Number will be generate automatically</p>
+  {% csrf_token %}
+  {% include 'forms/form.html' %}
+  {% include 'forms/buttons.html' with buttons=form.buttons %}
+  {% include 'students/student_info.html' %}
+</form>
+{% endblock %}
+{% block javascript %}
+{{form_media.js}}
+{% endblock %}
+{% block stylesheet %}
+{{form_media.css}}
+{% endblock %}

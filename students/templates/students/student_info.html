@@ -1,0 +1,117 @@
+{% load templatehelpers %}
+{% load static %}
+{% block dashboard-body %}
+            <!-- topstat row -->
+            <div class="row m-0 p-0">
+                <div class="d-inline">
+                    <div class="card pull-right">
+                        <div class="card-body">
+                          <img src="{% static 'images/avatar.png' %}" alt="{{ student.name}}" class="img-thumnail">
+                        </div>
+                        <div class="card-footer">
+                            <h3 class="m-3">{{ student.name}}</h3>
+                        </div>
+                    </div>
+                </div>
+              </div>
+  
+              <!-- second row -->
+              <div id="second-row" class="row m-0 p-0">
+                <div class="col-12 mt-5 p-0 d-flex justify-content-between">
+                  <div class="card">
+                    <div class="card-header">
+                      <h5>Academic Details</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Name : </span>
+                        <span class="date">{{ student.name|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Admission Number : </span>
+                        <span class="date">{{ student.admission_number|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Registration Number : </span>
+                        <span class="date">{{ student.registration_number|default:'-' }}</span>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Date of Join : </span>
+                        <span class="date">{{ student.date_of_join|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Fee Consession : </span>
+                        <span class="date">{{ student.feeconcession|feeconcession }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Status : </span>
+                        <span class="date">{{ student.active|studentactive }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Department : </span>
+                        <span class="date">{{ student.department.name }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Data Status : </span>
+                        <span class="date">{{ student.data_verified|data_verified }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">TC Issue Status : </span>
+                        <span class="date">{{ student.tc_application.tc_issued|tc_issued }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      <h5>Personal Details</h5>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Date of Birth : </span>
+                        <span class="date">{{ student.date_of_birth|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Gender : </span>
+                        <span class="date">{{ student.gender|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Mobile Number : </span>
+                        <span class="date">{{ student.mobile|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Guardian : </span>
+                        <span class="date">{{ student.guardian|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Relation : </span>
+                        <span class="date">{{ student.guardian_relation }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Guardian's Mobile : </span>
+                        <span class="date">{{ student.guardian_mobile|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">E-mail : </span>
+                        <span class="date">{{ student.email|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Religion : </span>
+                        <span class="date">{{ student.religion|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Community : </span>
+                        <span class="date">{{ student.community|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Address : </span>
+                        <span class="date">{{ student.address|default:'-' }}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between">
+                        <span class="name">Category : </span>
+                        <span class="date">{{ student.category|default:'-' }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- end of second row -->
+{% endblock %}
