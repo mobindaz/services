@@ -9,8 +9,11 @@ from .forms import StudentEditForm
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from tc.models import TcApplication
+from django.contrib import messages
 from io import TextIOWrapper
 import csv
+
+from .models import Student, UploadedFile
 
 class ImportStudentsView(View):
     def get(self, request):
@@ -20,7 +23,8 @@ class ImportStudentsView(View):
         csv_file = request.FILES.get('csv_file')
         
         if not csv_file:
-            return render(request, 'students/upload.html', {'error': 'No file uploaded.'})
+            messages.error(request, 'No file uploaded.')
+            return render(request, 'students/upload.html')
         
         # Save the uploaded file
         fs = FileSystemStorage(location=settings.MEDIA_ROOT)
@@ -29,51 +33,10 @@ class ImportStudentsView(View):
         
         # Save file information in the database
         UploadedFile.objects.create(file_name=csv_file.name, file_path=file_url)
-        
-        # Read and process the file
-        try:
-            csv_file_wrapper = TextIOWrapper(csv_file.file, encoding='utf-8')
-            csv_data = csv.reader(csv_file_wrapper, delimiter=',')
-            
-            headers = next(csv_data, None)
-            if headers is None:
-                return render(request, 'students/upload.html', {'error': 'The CSV file is empty or header is missing.'})
-            
-            expected_columns = ['SL NO.', 'APPN NO', 'Adm No.', 'Name', 'Gender', 'Date of Birth', 'Date ofJoin',
-                                'guardian', 'Relashionship with guardian', 'address', 'Branch of Study', 'Religion',
-                                'Caste', 'Category', 'CE', 'Whether in receipt of fee concession', 'Mobile']
-            
-            if headers != expected_columns:
-                return render(request, 'students/upload.html', {'error': 'The CSV file headers do not match expected format.'})
-            
-            students = []
-            for row in csv_data:
-                if len(row) >= 17:
-                    students.append({
-                        'name': row[3],
-                        'admission_number': row[2],
-                        'registration_number': row[1],
-                        'department': row[10],
-                        'gender': row[4],
-                        'date_of_birth': row[5],
-                        'date_of_join': row[6],
-                        'guardian': row[7],
-                        'relationship_with_guardian': row[8],
-                        'address': row[9],
-                        'religion': row[11],
-                        'caste': row[12],
-                        'category': row[13],
-                        'ce': row[14],
-                        'fee_concession': row[15],
-                        'mobile': row[16],
-                    })
-                else:
-                    return render(request, 'students/upload.html', {'error': 'The CSV file format is incorrect.'})
-            
-            return render(request, 'students/import_students.html', {'students': students, 'headers': headers, 'file_url': file_url})
-        
-        except Exception as e:
-            return render(request, 'students/upload.html', {'error': f'Error processing CSV file: {e}'})
+
+        # Provide a success message
+        messages.success(request, 'File successfully uploaded.')
+        return render(request, 'students/upload.html')
 
 
 def list_uploaded_files(request):
