@@ -1,0 +1,29 @@
+{% extends 'dashboard.html' %}
+{% block dashboard-body %}
+<div class="container">
+    <h3>Preview Imported Students</h3>
+    <form method="POST" action="{% url 'students:save_imported_students' %}">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    {% for header in headers %}
+                    <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    {% for key, value in student.items %}
+                    <td>{{ value }}</td>
+                    <input type="hidden" name="students" value="{{ student }}">
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-success">Save Students</button>
+    </form>
+</div>
+{% endblock %}

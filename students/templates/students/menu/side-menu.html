@@ -1,12 +1,11 @@
 <div class="sn-group">
-    <h5>Student Management</h5>
-    <nav>
-      <a class="sn-link" href="{% url 'students:students' %}">
-        <i class="fas fa-user"></i>Students Pending Verification
-      </a>
-      <a class="sn-link" href="{% url 'students:verifiedstudents' %}">
-        <i class="fas fa-user"></i>Verified Students
-      </a>
-    </nav>
-  
-  </div>
+  <h5>Student Management</h5>
+  <nav>
+    <a class="sn-link" href="{% url 'students:students_pending_verification' %}">
+      <i class="fas fa-user"></i>Students Pending Verification
+    </a>
+    <a class="sn-link" href="{% url 'students:verified_students' %}">
+      <i class="fas fa-user"></i>Verified Students
+    </a>
+  </nav>
+</div>

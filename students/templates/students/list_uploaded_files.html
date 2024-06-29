@@ -1,0 +1,26 @@
+{% extends 'dashboard.html' %}
+{% block dashboard-body %}
+<div class="container">
+    <h3>Uploaded Files</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>Upload Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file in files %}
+            <tr>
+                <td>{{ file.file_name }}</td>
+                <td>{{ file.upload_date }}</td>
+                <td>
+                    <a href="{{ file.file_path }}" class="btn btn-primary" target="_blank">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -26,8 +26,10 @@ admin.site.site_header = "GPC Palakkad"
 admin.site.site_title = "GPC Palakkd Admin Portal"
 admin.site.index_title = "Welcome to GPC Palakkad Portal"
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('students/', include('students.urls', namespace='students')),
     path('account/', include('account.urls')),
     path('tc/', include('tc.urls')),
     path('', dashboard, name='index_view'),

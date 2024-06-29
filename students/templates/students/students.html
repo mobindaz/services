@@ -4,6 +4,9 @@
 <h3 class="mb-3">{{label|default:'Students'}}</h3>
 <div class="row">
   <div class="col-12">
+    <div class="d-flex justify-content-end mb-3">
+      <a href="{% url 'students:import_students' %}" class="btn btn-primary">Import</a>
+    </div>
     <table class="table table-bordered">
       {% include 'table/header.html' with headers=headers %}
       <tbody>

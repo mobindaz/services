@@ -12,6 +12,14 @@ gender_choice = (
     ('Male', 'Male'),
     ('Female', 'Female')
 )
+
+
+class UploadedFile(models.Model):
+    file_name = models.CharField(max_length=255)
+    file_path = models.CharField(max_length=255)
+    upload_date = models.DateTimeField(auto_now_add=True)
+
+
 class Student(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True,blank=True)
     name = models.CharField(max_length=100)
