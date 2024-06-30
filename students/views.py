@@ -12,8 +12,10 @@ from tc.models import TcApplication
 from django.contrib import messages
 from io import TextIOWrapper
 import csv
-
+from datetime import datetime
 from .models import Student, UploadedFile
+import pandas as pd
+from .models import Department
 
 class ImportStudentsView(View):
     def get(self, request):
@@ -25,19 +27,42 @@ class ImportStudentsView(View):
         if not csv_file:
             messages.error(request, 'No file uploaded.')
             return render(request, 'students/upload.html')
-        
-        # Save the uploaded file
-        fs = FileSystemStorage(location=settings.MEDIA_ROOT)
-        filename = fs.save(csv_file.name, csv_file)
-        file_url = fs.url(filename)
-        
-        # Save file information in the database
-        UploadedFile.objects.create(file_name=csv_file.name, file_path=file_url)
+        self.handle_uploaded_file(request.FILES['csv_file'])
 
         # Provide a success message
         messages.success(request, 'File successfully uploaded.')
         return render(request, 'students/upload.html')
-
+    def handle_uploaded_file(self,file):
+        def convert_date(date_str):
+            try:
+                return datetime.strptime(date_str, "%d-%m-%Y").strftime("%Y-%m-%d")
+            except ValueError:
+                return None  # Handle invalid date format
+        df = pd.read_csv(file)
+        for index, row in df.iterrows():
+            try:
+                department = Department.objects.get(code=row['Branch of Study'])
+            except Department.DoesNotExist:
+                print(row['Branch of Study'])
+                department = None  # Handle missing department case
+            Student.objects.create(
+                name=row['Name'],
+                date_of_birth=convert_date(row['Date  of Birth']),
+                admission_number=row['Adm No.'],
+                gender=row['Gender'],
+                mobile=row['Mobile'],
+                guardian=row['guardian'],
+                guardian_relation=row['Relashionship with guardian'],
+                address=row['address'],
+                department=department,
+                religion=row['Religion'],
+                community=row['Caste'],
+                category=row['Category'],
+                date_of_join=convert_date(row['Date ofJoin'])   ,
+                feeconcession=row['Whether in receipt of fee concession'].strip().lower() == 'yes',
+                active=True
+            
+            )
 
 def list_uploaded_files(request):
     files = UploadedFile.objects.all()
