@@ -19,5 +19,4 @@ class TcAdmin(admin.ModelAdmin):
     def admission_number(self,obj):
         return obj.student.admission_number
 
-
 admin.site.register(TcApplication,TcAdmin)
